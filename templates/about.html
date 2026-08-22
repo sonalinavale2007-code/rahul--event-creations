@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Rahul Event Creations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif;}
+        body{background:#fff;}
+        .navbar{display:flex; justify-content:space-between; align-items:center; padding:15px 40px; background:white; box-shadow:0 2px 10px rgba(0,0,0,0.05); position:sticky; top:0;}
+        .navbar .logo{font-weight:800; font-size:22px; color:#1a0b4d;}
+        .navbar .logo span{color:#c41e3a;}
+        .navbar .links a{margin-left:20px; text-decoration:none; color:#333; font-weight:500; font-size:14px;}
+        .navbar .book-btn{background:#c41e3a; color:white; padding:10px 20px; border-radius:25px; text-decoration:none; font-weight:600; margin-left:20px;}
+        
+        .about-hero{background:#fde8f0; padding:80px 20px; text-align:center;}
+        .about-hero h1{font-size:44px; color:#1a0b4d; font-weight:800;}
+        .about-hero h1 span{color:#c41e3a;}
+        .about-hero p{color:#666; margin-top:12px; font-size:16px;}
+
+        .container{max-width:1100px; margin:auto; padding:60px 20px; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center;}
+        .container img{width:100%; border-radius:20px; height:400px; object-fit:cover;}
+        .stats{display:flex; gap:30px; margin-top:30px;}
+        .stats h3{color:#c41e3a; font-size:28px;}
+
+        @media (max-width:768px){
+            .container{grid-template-columns:1fr;}
+            .navbar .links{display:none;}
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><span>Rahul</span> Event Creations</div>
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="/services">Services</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/about">About Us</a>
+            <a href="/contact">Contact</a>
+            <a href="/book" class="book-btn">Book Now</a>
+        </div>
+    </nav>
+
+    <section class="about-hero">
+        <h1>About <span>Rahul Event Creations</span></h1>
+        <p>Creating unforgettable memories, one celebration at a time in Malegaon BK</p>
+    </section>
+
+    <div class="container">
+        <div>
+            <h5 style="color:#c41e3a; letter-spacing:3px;">OUR STORY</h5>
+            <h2 style="font-size:34px; color:#1a0b4d; margin:12px 0; line-height:1.2;">We Make Your Dream Events Real</h2>
+            <p style="color:#555; line-height:1.8; font-size:15px; margin-top:15px;">
+                The most trusted decoration company in Malegaon BK, Baramati. Since 2018, we have successfully completed over 500 events including Weddings, Birthdays, Haldi, Mehendi, Baby Shower, and Naming Ceremony.
+                <br><br>
+                Our goal is simple - We handle your decoration stress, so you can enjoy your celebration. We specialize only in decoration services like balloon decoration, backdrop decoration, floral decoration, and stage decoration.
+            </p>
+            <div class="stats">
+                <div><h3>500+</h3><p style="font-size:11px; color:#777;">EVENTS DONE</p></div>
+                <div><h3>7+</h3><p style="font-size:11px; color:#777;">YEARS EXP</p></div>
+                <div><h3>4.9★</h3><p style="font-size:11px; color:#777;">RATING</p></div>
+            </div>
+        </div>
+        <div>
+            <!-- Dusri image - Balloon Decoration -->
+            <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=700" alt="Balloon Decoration">
+        </div>
+    </div>
+
+    <footer style="background:#1a0b4d; color:white; text-align:center; padding:25px; font-size:13px;">
+        © 2026 Rahul Event Creations, Shop No. 5, Lakhe Complex, Malegaon BK, Baramati | All Rights Reserved
+    </footer>
+
+</body>
+</html>
