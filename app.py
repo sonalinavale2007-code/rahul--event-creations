@@ -2,8 +2,12 @@ from flask import Flask, render_template, request, session, redirect
 import mysql.connector, os
 app = Flask(__name__)
 app.secret_key = "rahul_event_secret_key"
-db = mysql.connector.connect(host="localhost", user="root", password="Sonali@2007", database="rahul_events")
-cursor = db.cursor(buffered=True)
+try:
+    db = mysql.connector.connect(host="localhost", user="root", password="Sonali@2007", database="rahul_events")
+    cursor = db.cursor(buffered=True)
+except:
+    db = None
+    cursor = None
 
 @app.route("/")
 def home(): return render_template("index.html")
