@@ -21,22 +21,21 @@ except:
 def send_email_async(to_list, subject, html_body):
     def _send():
         try:
-            if not isinstance(to_list, list): to_list = [to_list]
+            recipients = to_list if isinstance(to_list, list) else [to_list]
             msg = MIMEMultipart()
             msg['From'] = EMAIL_SENDER
-            msg['To'] = ", ".join(to_list)
+            msg['To'] = ", ".join(recipients)
             msg['Subject'] = subject
             msg.attach(MIMEText(html_body, 'html'))
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             server.login(EMAIL_SENDER, EMAIL_PASSWORD)
-            server.sendmail(EMAIL_SENDER, to_list, msg.as_string())
+            server.sendmail(EMAIL_SENDER, recipients, msg.as_string())
             server.quit()
-            print(f"Email sent to {to_list}")
+            print(f"Email sent to {recipients}")
         except Exception as e:
             print(f"Email Error: {e}")
     threading.Thread(target=_send).start()
-
 @app.route("/")
 def home(): return render_template("index.html")
 @app.route("/services")
