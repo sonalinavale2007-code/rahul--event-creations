@@ -8,7 +8,6 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 app = Flask(__name__)
 app.secret_key = "rahul_event_secret_key_2024"
 
-# Email Config
 EMAIL_SENDER = "rahuleventcreations2007@gmail.com"
 EMAIL_PASSWORD = "dkgf ybyv qvbm ybqo"
 OWNER_EMAILS = ["rahuleventcreations2007@gmail.com", "sonali2007-code@gmail.com"]
@@ -27,7 +26,6 @@ def send_email_async(to_list, subject, html_body):
             server.login(EMAIL_SENDER, EMAIL_PASSWORD)
             server.sendmail(EMAIL_SENDER, recipients, msg.as_string())
             server.quit()
-            print(f"Email sent to {recipients}")
         except Exception as e:
             print(f"Email Error: {e}")
     threading.Thread(target=_send).start()
@@ -59,28 +57,25 @@ def contact():
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     if request.method == "POST":
-        name = request.form.get("name")
-        phone = request.form.get("phone")
-        event = request.form.get("event")
-        date = request.form.get("date")
+        name = request.form.get("full_name")
+        phone = request.form.get("mobile")
+        email = request.form.get("email")
+        event = request.form.get("event_type")
+        date = request.form.get("event_date")
+        time = request.form.get("event_time")
+        address = request.form.get("event_address")
+        req = request.form.get("decoration_requirements")
         
-        html_body = f"""
-        <h2>New Booking - Rahul Event Creations</h2>
-        <p><b>Name:</b> {name}</p>
-        <p><b>Phone:</b> {phone}</p>
-        <p><b>Event:</b> {event}</p>
-        <p><b>Date:</b> {date}</p>
-        """
+        html_body = f"<h2>New Booking</h2><p><b>Name:</b> {name}</p><p><b>Phone:</b> {phone}</p><p><b>Email:</b> {email}</p><p><b>Event:</b> {event}</p><p><b>Date:</b> {date} {time}</p><p><b>Address:</b> {address}</p><p><b>Req:</b> {req}</p>"
         send_email_async(OWNER_EMAILS, f"New Booking from {name}", html_body)
         flash("Booking Successful! We will contact you soon.", "success")
-        return redirect(url_for("booking")) # <-- HE FIX AAHE, home aivaji booking
+        return redirect(url_for("booking"))
     return render_template("booking.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        password = request.form.get("password")
-        if password == "Sona11@2007":
+        if request.form.get("password") == "Sona11@2007":
             session['logged_in'] = True
             return redirect(url_for("dashboard"))
         else:
