@@ -48,7 +48,6 @@ def gallery():
     videos = sorted(os.listdir(vid)) if os.path.exists(vid) else []
     return render_template("gallery.html", images=images, videos=videos)
 
-# --- HYA 2 ROUTES MISSING HOTYA, HE ADD KELE ---
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -56,7 +55,6 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
-# ---------------------------------------------
 
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
@@ -75,7 +73,7 @@ def booking():
         """
         send_email_async(OWNER_EMAILS, f"New Booking from {name}", html_body)
         flash("Booking Successful! We will contact you soon.", "success")
-        return redirect(url_for("home"))
+        return redirect(url_for("booking")) # <-- HE FIX AAHE, home aivaji booking
     return render_template("booking.html")
 
 @app.route("/login", methods=["GET", "POST"])
