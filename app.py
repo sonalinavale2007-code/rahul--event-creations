@@ -8,12 +8,11 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 app = Flask(__name__)
 app.secret_key = "rahul_event_secret_key_2024"
 
-# Email Config - Tujha email
+# Email Config
 EMAIL_SENDER = "rahuleventcreations2007@gmail.com"
-EMAIL_PASSWORD = "dkgf ybyv qvbm ybqo"  # Tujha App Password
+EMAIL_PASSWORD = "dkgf ybyv qvbm ybqo"
 OWNER_EMAILS = ["rahuleventcreations2007@gmail.com", "sonali2007-code@gmail.com"]
 
-# --- FIXED EMAIL FUNCTION ---
 def send_email_async(to_list, subject, html_body):
     def _send():
         try:
@@ -48,6 +47,16 @@ def gallery():
     images = sorted(os.listdir(img)) if os.path.exists(img) else []
     videos = sorted(os.listdir(vid)) if os.path.exists(vid) else []
     return render_template("gallery.html", images=images, videos=videos)
+
+# --- HYA 2 ROUTES MISSING HOTYA, HE ADD KELE ---
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+# ---------------------------------------------
 
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
