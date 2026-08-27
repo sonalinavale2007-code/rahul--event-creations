@@ -8,9 +8,10 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 app = Flask(__name__)
 app.secret_key = "rahul_event_secret_key_2024"
 
-EMAIL_SENDER = "rahuleventcreations2007@gmail.com"
-EMAIL_PASSWORD = "dkgf ybyv qvbm ybqo"
-OWNER_EMAILS = ["rahuleventcreations2007@gmail.com", "sonali2007-code@gmail.com"]
+# FIX 1: Render cha Environment Variable vaparnar
+EMAIL_SENDER = os.environ.get("EMAIL_SENDER", "rahulevent07@gmail.com")
+EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD", "zfjebcvtjlmwtylc").replace(" ", "")
+OWNER_EMAILS = [EMAIL_SENDER, "sonal12007-code@gmail.com", "rahuleventcreations2007@gmail.com"]
 
 def send_email_async(to_list, subject, html_body):
     def _send():
@@ -21,11 +22,13 @@ def send_email_async(to_list, subject, html_body):
             msg['To'] = ", ".join(recipients)
             msg['Subject'] = subject
             msg.attach(MIMEText(html_body, 'html'))
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.starttls()
+            
+            # FIX 2: Port 465 - Render free server var chalto
+            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
             server.login(EMAIL_SENDER, EMAIL_PASSWORD)
             server.sendmail(EMAIL_SENDER, recipients, msg.as_string())
             server.quit()
+            print(f"Email sent to {recipients}")
         except Exception as e:
             print(f"Email Error: {e}")
     threading.Thread(target=_send).start()
@@ -66,7 +69,7 @@ def booking():
         address = request.form.get("event_address")
         req = request.form.get("decoration_requirements")
         
-        html_body = f"<h2>New Booking</h2><p><b>Name:</b> {name}</p><p><b>Phone:</b> {phone}</p><p><b>Email:</b> {email}</p><p><b>Event:</b> {event}</p><p><b>Date:</b> {date} {time}</p><p><b>Address:</b> {address}</p><p><b>Req:</b> {req}</p>"
+        html_body = f"<h2>New Booking - Rahul Event Creations</h2><p><b>Name:</b> {name}</p><p><b>Phone:</b> {phone}</p><p><b>Email:</b> {email}</p><p><b>Event:</b> {event}</p><p><b>Date:</b> {date} {time}</p><p><b>Address:</b> {address}</p><p><b>Req:</b> {req}</p>"
         send_email_async(OWNER_EMAILS, f"New Booking from {name}", html_body)
         flash("Booking Successful! We will contact you soon.", "success")
         return redirect(url_for("booking"))
