@@ -1,58 +1,45 @@
+from flask import Flask, render_template, request, redirect, url_for, flash
 import os
-from flask import Flask, render_template, request
-from dotenv import load_dotenv
-load_dotenv(override=True)
 
 app = Flask(__name__)
+app.secret_key = "rahul_event_secret_2026"
 
-def get_db():
-    import mysql.connector
-    return mysql.connector.connect(
-        host=os.getenv("DB_HOST","").strip(),
-        port=int(os.getenv("DB_PORT","28752")),
-        user=os.getenv("DB_USER","").strip(),
-        password=os.getenv("DB_PASSWORD","").strip(),
-        database=os.getenv("DB_NAME","").strip(),
-        ssl_ca=os.path.join(os.path.dirname(__file__), "ca.pem")
-    )
+# --- Data for Website ---
+services_data = [
+    {"title": "Wedding Decoration", "desc": "Royal wedding stage, mandap, lighting in Nagpur", "img": "wedding.jpg"},
+    {"title": "Birthday Decoration", "desc": "Theme birthday, balloon, kids party decoration", "img": "birthday.jpg"},
+    {"title": "Stage Decoration", "desc": "Cultural, corporate stage setup", "img": "stage.jpg"},
+    {"title": "Lighting & Sound", "desc": "DJ, LED lights, sound system", "img": "light.jpg"},
+]
 
-@app.route("/")
+gallery_data = [
+    "img1.jpg", "img2.jpg", "img3.jpg", 
+    "img4.jpg", "img5.jpg", "img6.jpg"
+]
+
+@app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template('index.html', services=services_data, gallery=gallery_data)
 
-@app.route("/services")
-def services():
-    return render_template("index.html")
-
-@app.route("/gallery")
-def gallery():
-    return render_template("index.html")
-
-@app.route("/about")
-def about():
-    return render_template("index.html")
-
-@app.route("/contact")
+@app.route('/contact', methods=['POST'])
 def contact():
-    return render_template("index.html")
+    name = request.form.get('name')
+    phone = request.form.get('phone')
+    message = request.form.get('message')
+    print(f"New Booking: {name} - {phone} - {message}")
+    # Yethe tu Google Sheet la save karu shaktes
+    flash("Thank you! Rahul will call you soon!", "success")
+    return redirect(url_for('home') + '#contact')
 
-@app.route("/booking", methods=["GET","POST"])
-def booking():
-    if request.method == "POST":
-        try:
-            conn = get_db()
-            cur = conn.cursor()
-            cur.execute("CREATE TABLE IF NOT EXISTS bookings (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), phone VARCHAR(20), event_type VARCHAR(100), event_date DATE, message TEXT)")
-            cur.execute("INSERT INTO bookings (name,phone,event_type,event_date,message) VALUES (%s,%s,%s,%s,%s)",
-                (request.form.get("name"), request.form.get("phone"), request.form.get("event_type"), request.form.get("event_date"), request.form.get("message")))
-            conn.commit()
-            cur.close()
-            conn.close()
-            return "<h1 style='color:green;text-align:center;margin-top:50px'>Booking Successful!</h1><a href='/' style='display:block;text-align:center'>Go Home</a>"
-        except Exception as e:
-            return f"Error: {e} <a href='/'>Home</a>"
-    return render_template("booking.html")
+@app.route('/book', methods=['POST'])
+def book():
+    name = request.form.get('name')
+    event_type = request.form.get('event')
+    date = request.form.get('date')
+    print(f"Booking: {name}, {event_type}, {date}")
+    flash(f"{name}, your {event_type} booking request received!", "success")
+    return redirect(url_for('home'))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
