@@ -40,6 +40,11 @@ def booking():
 def admin():
     return render_template('admin.html')
 
+# Alias - juna naam asel tari chalu rahil
+app.add_url_rule('/booking', endpoint='booking_page', view_func=booking)
+app.add_url_rule('/services', endpoint='services_page', view_func=services)
+app.add_url_rule('/gallery', endpoint='gallery_page', view_func=gallery)
+
 @app.route('/contact', methods=['POST'])
 def contact_form():
     flash("Thank you! Rahul will call you soon!", "success")
